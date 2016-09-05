@@ -1,0 +1,43 @@
+PARSER_BEGIN(Exp)
+public class Exp {
+  public static void main(String args[]) throws ParseException {
+    Exp parser = new Exp(System.in);
+    parser.ExpressionList();   
+        // Notice this calls the start symbol for the grammar
+  }
+}
+ 
+PARSER_END(Exp)
+SKIP :
+{ " " | "\t" | "\n" | "\r" }
+ 
+TOKEN :
+{ < ID: ["a"-"z","A"-"Z"] ( ["a"-"z","A"-"Z","0"-"9"] )* >
+| < NUM: ( ["0"-"9"] )+ >
+}
+ 
+void ExpressionList() :
+{ String s; }
+{ { System.out.println(
+             "Please type in an expression followed by a \";\" or ^D to quit:");
+          System.out.println(""); }
+  ( Expression() ";" )* <EOF>
+}
+ 
+void Expression() :
+{ }
+{ Term() ( "+" Term() )* }
+ 
+void Term() :
+{ }
+{ Factor() ( "*" Factor() )* }
+ 
+void Factor() :
+{ Token t; String s; }
+{ t=<ID>
+        { System.out.println("Just read a " +t.image); }
+| t=<NUM>
+        { System.out.println("Just read a " + t.image); }
+| "(" Expression() ")"
+        { System.out.println("Just read a parenthesized expression");        }
+}
