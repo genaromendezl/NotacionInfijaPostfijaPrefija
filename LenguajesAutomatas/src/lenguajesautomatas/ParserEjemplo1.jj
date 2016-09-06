@@ -14,7 +14,9 @@ TOKEN :
 { < ID: ["a"-"z","A"-"Z"] ( ["a"-"z","A"-"Z","0"-"9"] )* >
 | < NUM: ( ["0"-"9"] )+ >
 }
- 
+
+TOKEN : { <REAL: <NUM> ("." <NUM> )* > }
+
 void ExpressionList() :
 { String s; }
 { { System.out.println(
@@ -25,17 +27,19 @@ void ExpressionList() :
  
 void Expression() :
 { }
-{ Term() ( "+" Term() )* }
+{ Term() (( "+" Term() ) | ( "-" Term() ))* }
  
 void Term() :
 { }
-{ Factor() ( "*" Factor() )* }
+{ Factor() ( "*" Factor() | "/" Factor() )* }
  
 void Factor() :
 { Token t; String s; }
 { t=<ID>
         { System.out.println("Just read a " +t.image); }
 | t=<NUM>
+        { System.out.println("Just read a " + t.image); }
+| t=<REAL>
         { System.out.println("Just read a " + t.image); }
 | "(" Expression() ")"
         { System.out.println("Just read a parenthesized expression");        }
