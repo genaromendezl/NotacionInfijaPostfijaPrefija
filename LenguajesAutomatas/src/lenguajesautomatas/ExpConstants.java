@@ -12,6 +12,8 @@ public interface ExpConstants {
   int ID = 5;
   /** RegularExpression Id. */
   int NUM = 6;
+  /** RegularExpression Id. */
+  int REAL = 7;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -25,9 +27,12 @@ public interface ExpConstants {
     "\"\\r\"",
     "<ID>",
     "<NUM>",
+    "<REAL>",
     "\";\"",
     "\"+\"",
+    "\"-\"",
     "\"*\"",
+    "\"/\"",
     "\"(\"",
     "\")\"",
   };
