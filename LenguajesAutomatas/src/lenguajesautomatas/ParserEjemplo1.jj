@@ -26,21 +26,29 @@ void ExpressionList() :
 }
  
 void Expression() :
-{ }
-{ Term() (( "+" Term() ) | ( "-" Term() ))* }
+{ float t1=0; float t2=0; }
+{ t1=Term() (( "+" t2=Term() ) { System.out.println(t1+t2);  }
+        |    ( "-" t2=Term() ) { System.out.println(t1-t2);  })*
+
+}
  
-void Term() :
-{ }
-{ Factor() ( "*" Factor() | "/" Factor() )* }
+float Term() :
+{ float f1=0; float f2=1;}
+{ f1=Factor() ( "*" f2=Factor() { return f1*f2;}
+              | "/" f2=Factor() { return f1/f2;})* 
+  { return f1;}
+}
  
-void Factor() :
-{ Token t; String s; }
+float Factor() :
+{ Token t; String s; float valor=0;}
 { t=<ID>
-        { System.out.println("Just read a " +t.image); }
+        { System.out.println("Just read a " +t.image);
+            return valor;
+         }
 | t=<NUM>
-        { System.out.println("Just read a " + t.image); }
+        { valor = Float.parseFloat(t.image); return valor; }
 | t=<REAL>
-        { System.out.println("Just read a " + t.image); }
+        { valor = Float.parseFloat(t.image);  return valor;}
 | "(" Expression() ")"
-        { System.out.println("Just read a parenthesized expression");        }
+        { return valor;        }
 }

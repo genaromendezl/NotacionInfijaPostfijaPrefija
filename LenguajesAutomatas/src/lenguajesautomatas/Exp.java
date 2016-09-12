@@ -31,7 +31,8 @@ public class Exp implements ExpConstants {
   }
 
   static final public void Expression() throws ParseException {
-    Term();
+  float t1=0; float t2=0;
+    t1 = Term();
     label_2:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -46,11 +47,13 @@ public class Exp implements ExpConstants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 9:
         jj_consume_token(9);
-        Term();
+        t2 = Term();
+                                 System.out.println(t1+t2);
         break;
       case 10:
         jj_consume_token(10);
-        Term();
+        t2 = Term();
+                                 System.out.println(t1-t2);
         break;
       default:
         jj_la1[2] = jj_gen;
@@ -60,8 +63,9 @@ public class Exp implements ExpConstants {
     }
   }
 
-  static final public void Term() throws ParseException {
-    Factor();
+  static final public float Term() throws ParseException {
+  float f1=0; float f2=1;
+    f1 = Factor();
     label_3:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -76,11 +80,13 @@ public class Exp implements ExpConstants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case 11:
         jj_consume_token(11);
-        Factor();
+        f2 = Factor();
+                                  {if (true) return f1*f2;}
         break;
       case 12:
         jj_consume_token(12);
-        Factor();
+        f2 = Factor();
+                                  {if (true) return f1/f2;}
         break;
       default:
         jj_la1[4] = jj_gen;
@@ -88,34 +94,38 @@ public class Exp implements ExpConstants {
         throw new ParseException();
       }
     }
+    {if (true) return f1;}
+    throw new Error("Missing return statement in function");
   }
 
-  static final public void Factor() throws ParseException {
-  Token t; String s;
+  static final public float Factor() throws ParseException {
+  Token t; String s; float valor=0;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case ID:
       t = jj_consume_token(ID);
           System.out.println("Just read a " +t.image);
+            {if (true) return valor;}
       break;
     case NUM:
       t = jj_consume_token(NUM);
-          System.out.println("Just read a " + t.image);
+          valor = Float.parseFloat(t.image); {if (true) return valor;}
       break;
     case REAL:
       t = jj_consume_token(REAL);
-          System.out.println("Just read a " + t.image);
+          valor = Float.parseFloat(t.image);  {if (true) return valor;}
       break;
     case 13:
       jj_consume_token(13);
       Expression();
       jj_consume_token(14);
-          System.out.println("Just read a parenthesized expression");
+          {if (true) return valor;}
       break;
     default:
       jj_la1[5] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
+    throw new Error("Missing return statement in function");
   }
 
   static private boolean jj_initialized_once = false;
