@@ -18,24 +18,25 @@ TOKEN :
 TOKEN : { <REAL: <NUM> ("." <NUM> )* > }
 
 void ExpressionList() :
-{ String s; }
+{ String s; float e=0; }
 { { System.out.println(
              "Please type in an expression followed by a \";\" or ^D to quit:");
           System.out.println(""); }
-  ( Expression() ";" )* <EOF>
+  ( e=Expression() ";" {System.out.println(e);})* <EOF>
 }
  
-void Expression() :
+float Expression() :
 { float t1=0; float t2=0; }
-{ t1=Term() (( "+" t2=Term() ) { System.out.println(t1+t2);  }
-        |    ( "-" t2=Term() ) { System.out.println(t1-t2);  })*
+{ t1=Term() (( "+" t2=Term() ) { t1+=t2;  }
+        |    ( "-" t2=Term() ) { t1+=t2;  })*
+  { return t1; }
 
 }
  
 float Term() :
 { float f1=0; float f2=1;}
-{ f1=Factor() ( "*" f2=Factor() { return f1*f2;}
-              | "/" f2=Factor() { return f1/f2;})* 
+{ f1=Factor() ( "*" f2=Factor() { f1*=f2;}
+              | "/" f2=Factor() { f1/=f2;})* 
   { return f1;}
 }
  

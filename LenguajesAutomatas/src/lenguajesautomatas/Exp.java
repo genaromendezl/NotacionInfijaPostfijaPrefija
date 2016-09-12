@@ -7,7 +7,7 @@ public class Exp implements ExpConstants {
   }
 
   static final public void ExpressionList() throws ParseException {
-  String s;
+  String s; float e=0;
     System.out.println(
              "Please type in an expression followed by a \u005c";\u005c" or ^D to quit:");
           System.out.println("");
@@ -24,13 +24,14 @@ public class Exp implements ExpConstants {
         jj_la1[0] = jj_gen;
         break label_1;
       }
-      Expression();
+      e = Expression();
       jj_consume_token(8);
+                        System.out.println(e);
     }
     jj_consume_token(0);
   }
 
-  static final public void Expression() throws ParseException {
+  static final public float Expression() throws ParseException {
   float t1=0; float t2=0;
     t1 = Term();
     label_2:
@@ -48,12 +49,12 @@ public class Exp implements ExpConstants {
       case 9:
         jj_consume_token(9);
         t2 = Term();
-                                 System.out.println(t1+t2);
+                                 t1+=t2;
         break;
       case 10:
         jj_consume_token(10);
         t2 = Term();
-                                 System.out.println(t1-t2);
+                                 t1+=t2;
         break;
       default:
         jj_la1[2] = jj_gen;
@@ -61,6 +62,8 @@ public class Exp implements ExpConstants {
         throw new ParseException();
       }
     }
+    {if (true) return t1;}
+    throw new Error("Missing return statement in function");
   }
 
   static final public float Term() throws ParseException {
@@ -81,12 +84,12 @@ public class Exp implements ExpConstants {
       case 11:
         jj_consume_token(11);
         f2 = Factor();
-                                  {if (true) return f1*f2;}
+                                  f1*=f2;
         break;
       case 12:
         jj_consume_token(12);
         f2 = Factor();
-                                  {if (true) return f1/f2;}
+                                  f1/=f2;
         break;
       default:
         jj_la1[4] = jj_gen;
